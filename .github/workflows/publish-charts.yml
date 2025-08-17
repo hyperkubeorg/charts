@@ -101,8 +101,28 @@ jobs:
             exit 1
           fi
 
-      - name: Verify chart push
+             - name: Verify chart push
+         run: |
+           echo "Chart published successfully!"
+           echo "You can now install it with:"
+           echo "helm install my-release oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ steps.chart-info.outputs.name }} --version ${{ steps.chart-info.outputs.version }}"
+
+  publish-to-pages:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
         run: |
-          echo "Chart published successfully!"
-          echo "You can now install it with:"
-          echo "helm install my-release oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ steps.chart-info.outputs.name }} --version ${{ steps.chart-info.outputs.version }}"
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.7.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
