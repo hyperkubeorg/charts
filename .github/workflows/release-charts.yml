@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '*/Chart.yaml'
+  workflow_dispatch:
 
 jobs:
   release:
