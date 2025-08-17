@@ -101,11 +101,11 @@ jobs:
             exit 1
           fi
 
-             - name: Verify chart push
-         run: |
-           echo "Chart published successfully!"
-           echo "You can now install it with:"
-           echo "helm install my-release oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ steps.chart-info.outputs.name }} --version ${{ steps.chart-info.outputs.version }}"
+      - name: Verify chart push
+        run: |
+          echo "Chart published successfully!"
+          echo "You can now install it with:"
+          echo "helm install my-release oci://${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ steps.chart-info.outputs.name }} --version ${{ steps.chart-info.outputs.version }}"
 
   publish-to-pages:
     permissions:
