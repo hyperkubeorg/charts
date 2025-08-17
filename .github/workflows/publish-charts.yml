@@ -53,6 +53,9 @@ jobs:
     needs: discover-charts
     if: needs.discover-charts.outputs.charts != '[]'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         chart: ${{ fromJson(needs.discover-charts.outputs.charts) }}
